@@ -13,31 +13,31 @@ SET NOCOUNT ON; -- Report only errors
 -- --------------------------------------------------------------------------------
 -- Drop Tables
 -- --------------------------------------------------------------------------------
-IF OBJECT_ID( 'TTeamPlayers' )				IS NOT NULL DROP TABLE TTeamPlayers
-IF OBJECT_ID( 'TPlayers' )					IS NOT NULL DROP TABLE TPlayers
-IF OBJECT_ID( 'TTeams' )					IS NOT NULL DROP TABLE TTeams
+IF OBJECT_ID( 'TTeamPlayers' )			IS NOT NULL DROP TABLE TTeamPlayers
+IF OBJECT_ID( 'TPlayers' )			IS NOT NULL DROP TABLE TPlayers
+IF OBJECT_ID( 'TTeams' )			IS NOT NULL DROP TABLE TTeams
 
-IF OBJECT_ID( 'uspSetTeamStatus' )			IS NOT NULL DROP PROCEDURE uspSetTeamStatus
+IF OBJECT_ID( 'uspSetTeamStatus' )		IS NOT NULL DROP PROCEDURE uspSetTeamStatus
 IF OBJECT_ID( 'uspSetPlayerStatus' )		IS NOT NULL DROP PROCEDURE uspSetPlayerStatus
 IF OBJECT_ID( 'uspSetTeamPlayerStatus' )	IS NOT NULL DROP PROCEDURE uspSetTeamPlayerStatus
-IF OBJECT_ID( 'uspAddTeam' )				IS NOT NULL DROP PROCEDURE uspAddTeam
-IF OBJECT_ID( 'uspAddPlayer' )				IS NOT NULL DROP PROCEDURE uspAddPlayer
-IF OBJECT_ID( 'uspAddTeamPlayer' )			IS NOT NULL DROP PROCEDURE uspAddTeamPlayer
+IF OBJECT_ID( 'uspAddTeam' )			IS NOT NULL DROP PROCEDURE uspAddTeam
+IF OBJECT_ID( 'uspAddPlayer' )			IS NOT NULL DROP PROCEDURE uspAddPlayer
+IF OBJECT_ID( 'uspAddTeamPlayer' )		IS NOT NULL DROP PROCEDURE uspAddTeamPlayer
 
-IF OBJECT_ID( 'VActiveTeams' )				IS NOT NULL DROP VIEW VActiveTeams
-IF OBJECT_ID( 'VActivePlayers' )			IS NOT NULL DROP VIEW VActivePlayers
-IF OBJECT_ID( 'VInActiveTeams' )			IS NOT NULL DROP VIEW VInActiveTeams
-IF OBJECT_ID( 'VInActivePlayers' )			IS NOT NULL DROP VIEW VInActivePlayers
+IF OBJECT_ID( 'VActiveTeams' )			IS NOT NULL DROP VIEW VActiveTeams
+IF OBJECT_ID( 'VActivePlayers' )		IS NOT NULL DROP VIEW VActivePlayers
+IF OBJECT_ID( 'VInActiveTeams' )		IS NOT NULL DROP VIEW VInActiveTeams
+IF OBJECT_ID( 'VInActivePlayers' )		IS NOT NULL DROP VIEW VInActivePlayers
 
 -- --------------------------------------------------------------------------------
 -- Step #1: Create Tables
 -- --------------------------------------------------------------------------------
 CREATE TABLE TTeams
 (
-	 intTeamID 					INTEGER			NOT NULL
-	,strTeam					VARCHAR(50)		NOT NULL
-	,strMascot					VARCHAR(50)		NOT NULL
-	,blnIsActive				BIT				NOT NULL
+	 intTeamID 				INTEGER			NOT NULL
+	,strTeam				VARCHAR(50)		NOT NULL
+	,strMascot				VARCHAR(50)		NOT NULL
+	,blnIsActive				BIT			NOT NULL
 	,CONSTRAINT TTeams_PK PRIMARY KEY( intTeamID )
 )
 
@@ -47,15 +47,15 @@ CREATE TABLE TPlayers
 	,strFirstName				VARCHAR(50)		NOT NULL
 	,strLastName				VARCHAR(50)		NOT NULL
 	,strPhoneNumber				VARCHAR(50)		NOT NULL
-	,blnIsActive				BIT				NOT NULL
+	,blnIsActive				BIT			NOT NULL
 	,CONSTRAINT TPlayers_PK PRIMARY KEY( intPlayerID )
 )
 
 CREATE TABLE TTeamPlayers
 (
-	 intTeamID					INTEGER			NOT NULL
+	 intTeamID				INTEGER			NOT NULL
 	,intPlayerID				INTEGER			NOT NULL
-	,blnIsActive				BIT				NOT NULL
+	,blnIsActive				BIT			NOT NULL
 	,CONSTRAINT TTeamPlayers_PK PRIMARY KEY( intTeamID, intPlayerID )
 )
 
@@ -63,10 +63,10 @@ CREATE TABLE TTeamPlayers
 -- Step #2 Identify and Create Foreign Keys 
 -- --------------------------------------------------------------------------------
 
---	Child						Parent					Column(s)
---	-----						------					---------
--- 1	TTeamPlayers			TTeams					intTeamID
--- 2	TTeamPlayers			TPlayers				intPlayerID
+--	Child				Parent				Column(s)
+--	-----				------				---------
+-- 1	TTeamPlayers			TTeams				intTeamID
+-- 2	TTeamPlayers			TPlayers			intPlayerID
 
 -- 1
 ALTER TABLE TTeamPlayers ADD CONSTRAINT TTeamPlayers_TTeams_FK 
@@ -81,19 +81,19 @@ FOREIGN KEY ( intPlayerID ) REFERENCES TPlayers ( intPlayerID )
 -- --------------------------------------------------------------------------------
 INSERT INTO TTeams( intTeamID, strTeam, strMascot, blnIsActive )
 VALUES	 ( 1, 'Trigonometry', 'Unit Circle', 1 )
-		,( 2, 'Astrophysics', 'Higgs Boson', 1 )
-		,( 3, 'Chemistry', 'Carbon Atom', 0 )
+	,( 2, 'Astrophysics', 'Higgs Boson', 1 )
+	,( 3, 'Chemistry', 'Carbon Atom', 0 )
 
 INSERT INTO TPlayers( intPlayerID, strFirstName, strLastName, strPhoneNumber, blnIsActive )
 VALUES   ( 1, 'Sam', 'Johnson', '111-111-1111', 1 )
-		,( 2, 'Sarah', 'Smith', '222-222-2222', 1 )
-		,( 3, 'Andy', 'Douglas', '333-333-3333', 1 )
-		,( 4, 'Jill', 'Dennison', '444-444-4444', 0 )
+	,( 2, 'Sarah', 'Smith', '222-222-2222', 1 )
+	,( 3, 'Andy', 'Douglas', '333-333-3333', 1 )
+	,( 4, 'Jill', 'Dennison', '444-444-4444', 0 )
 
 INSERT INTO TTeamPlayers ( intTeamID, intPlayerID, blnIsActive )
 VALUES   ( 1, 1, 0 )
-		,( 2, 2, 1 )
-		,( 3, 3, 1 )
+	,( 2, 2, 1 )
+	,( 3, 3, 1 )
 
 -- --------------------------------------------------------------------------------
 -- Step #4 uspSetTeamStatus
@@ -101,8 +101,8 @@ VALUES   ( 1, 1, 0 )
 GO
 
 CREATE PROCEDURE uspSetTeamStatus
-	 @intTeamID			AS INTEGER
-	,@blnIsActive		AS BIT
+	 @intTeamID	AS INTEGER
+	,@blnIsActive	AS BIT
 AS
 SET NOCOUNT ON	-- Report only errors
 SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
@@ -121,8 +121,8 @@ WHERE
 GO
 
 CREATE PROCEDURE uspSetPlayerStatus
-	 @intPlayerID		AS INTEGER
-	,@blnIsActive		AS BIT
+	 @intPlayerID	AS INTEGER
+	,@blnIsActive	AS BIT
 AS
 SET NOCOUNT ON	-- Report only errors
 SET XACT_ABORT ON	-- Terminate and rollback entire transaction on error
@@ -141,7 +141,7 @@ WHERE
 GO
 
 CREATE PROCEDURE uspSetTeamPlayerStatus
-	 @intTeamID		AS INTEGER
+	 @intTeamID	AS INTEGER
 	,@intPlayerID	AS INTEGER
 	,@blnIsActive	AS BIT
 AS
@@ -154,8 +154,8 @@ UPDATE
 SET
 	blnIsActive = @blnIsActive
 WHERE
-	intTeamID	 = @intTeamID
-AND intPlayerID	 = @intPlayerID
+	intTeamID   = @intTeamID
+    AND intPlayerID = @intPlayerID
 
 -- --------------------------------------------------------------------------------
 -- Step #7 uspAddTeam
@@ -163,7 +163,7 @@ AND intPlayerID	 = @intPlayerID
 GO
 
 CREATE PROCEDURE uspAddTeam
-	  @strTeam		AS VARCHAR(50)
+	  @strTeam	AS VARCHAR(50)
 	 ,@strMascot	AS VARCHAR(50)
 AS
 SET NOCOUNT ON	-- Report only errors
@@ -250,7 +250,7 @@ BEGIN TRANSACTION
 		TPlayers (TABLOCKX) -- Lock table until end of transaction
 	WHERE 
 		strFirstName = @strFirstName
-	AND strLastName	 = @strLastName
+	    AND strLastName  = @strLastName
 
 	-- Does the player already exist?
 	IF @blnAlreadyExists = 0
@@ -277,7 +277,7 @@ BEGIN TRANSACTION
 				TPlayers
 			WHERE
 				strFirstName = @strFirstName
-			AND strLastName =  @strLastName
+			    AND strLastName =  @strLastName
 
 			-- Set the team status flag to active
 			EXECUTE uspSetPlayerStatus @intPlayerID, 1
@@ -318,7 +318,7 @@ BEGIN TRANSACTION
 		TTeamPlayers (TABLOCKX) -- Lock table until end of transaction
 	WHERE 
 		intTeamID	= @intTeamID
-	AND intPlayerID	= @intPlayerID
+	    AND intPlayerID	= @intPlayerID
 
 	-- Does the team player already exist?
 	IF @blnAlreadyExists = 0
