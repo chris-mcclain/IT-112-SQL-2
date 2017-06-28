@@ -13,20 +13,20 @@ SET NOCOUNT ON; -- Report only errors
 -- --------------------------------------------------------------------------------
 -- Drop Procedures and Tables
 -- --------------------------------------------------------------------------------
-IF OBJECT_ID( 'uspAdd2Numbers' )					IS NOT NULL DROP PROCEDURE uspAdd2Numbers
-IF OBJECT_ID( 'uspMultiply2Numbers' )				IS NOT NULL DROP PROCEDURE uspMultiply2Numbers
-IF OBJECT_ID( 'uspDivide2Numbers' )					IS NOT NULL DROP PROCEDURE uspDivide2Numbers
-IF OBJECT_ID( 'uspCallAnotherStoredProcedure' )		IS NOT NULL DROP PROCEDURE uspCallAnotherStoredProcedure
+IF OBJECT_ID( 'uspAdd2Numbers' )		IS NOT NULL DROP PROCEDURE uspAdd2Numbers
+IF OBJECT_ID( 'uspMultiply2Numbers' )		IS NOT NULL DROP PROCEDURE uspMultiply2Numbers
+IF OBJECT_ID( 'uspDivide2Numbers' )		IS NOT NULL DROP PROCEDURE uspDivide2Numbers
+IF OBJECT_ID( 'uspCallAnotherStoredProcedure' )	IS NOT NULL DROP PROCEDURE uspCallAnotherStoredProcedure
 
-IF OBJECT_ID( 'TTeamPlayers' )						IS NOT NULL DROP TABLE TTeamPlayers
-IF OBJECT_ID( 'TPlayers' )							IS NOT NULL DROP TABLE TPlayers
-IF OBJECT_ID( 'TTeams' )							IS NOT NULL DROP TABLE TTeams
-IF OBJECT_ID( 'TCoaches' )							IS NOT NULL DROP TABLE TCoaches
+IF OBJECT_ID( 'TTeamPlayers' )			IS NOT NULL DROP TABLE TTeamPlayers
+IF OBJECT_ID( 'TPlayers' )			IS NOT NULL DROP TABLE TPlayers
+IF OBJECT_ID( 'TTeams' )			IS NOT NULL DROP TABLE TTeams
+IF OBJECT_ID( 'TCoaches' )			IS NOT NULL DROP TABLE TCoaches
 
-IF OBJECT_ID( 'uspAddCoach' )						IS NOT NULL DROP PROCEDURE uspAddCoach
-IF OBJECT_ID( 'uspAddTeam' )						IS NOT NULL DROP PROCEDURE uspAddTeam
-IF OBJECT_ID( 'uspAddPlayer' )						IS NOT NULL DROP PROCEDURE uspAddPlayer
-IF OBJECT_ID( 'uspAddTeamCoachAndPlayer' )			IS NOT NULL DROP PROCEDURE uspAddTeamCoachAndPlayer
+IF OBJECT_ID( 'uspAddCoach' )			IS NOT NULL DROP PROCEDURE uspAddCoach
+IF OBJECT_ID( 'uspAddTeam' )			IS NOT NULL DROP PROCEDURE uspAddTeam
+IF OBJECT_ID( 'uspAddPlayer' )			IS NOT NULL DROP PROCEDURE uspAddPlayer
+IF OBJECT_ID( 'uspAddTeamCoachAndPlayer' )	IS NOT NULL DROP PROCEDURE uspAddTeamCoachAndPlayer
 
 -- --------------------------------------------------------------------------------
 -- Step #1.1 - uspAdd2Numbers
@@ -91,9 +91,9 @@ uspMultiply2Numbers 5, 10
 GO
 
 CREATE PROCEDURE uspDivide2Numbers
-	 @decValue1				AS DECIMAL(8, 2)
-	,@decValue2				AS DECIMAL (8, 2)
-	,@decResult				AS DECIMAL (8, 2) OUTPUT
+	 @decValue1 AS DECIMAL(8, 2)
+	,@decValue2 AS DECIMAL (8, 2)
+	,@decResult AS DECIMAL (8, 2) OUTPUT
 AS
 SET NOCOUNT ON    --Report only errors
 
@@ -123,7 +123,7 @@ uspCallAnotherStoredProcedure
 -- --------------------------------------------------------------------------------
 CREATE TABLE TCoaches
 (
-	 intCoachID				INTEGER						NOT NULL
+	 intCoachID			INTEGER						NOT NULL
 	,strFirstName			VARCHAR(50)					NOT NULL
 	,strLastName			VARCHAR(50)					NOT NULL
 	,strPhoneNumber			VARCHAR(50)					NOT NULL
@@ -132,10 +132,10 @@ CREATE TABLE TCoaches
 
 CREATE TABLE TTeams
 (
-	 intTeamID				INTEGER						NOT NULL
-	,strTeam				VARCHAR(50)					NOT NULL
-	,strMascot				VARCHAR(50)					NOT NULL
-	,intCoachID				INTEGER						NOT NULL
+	 intTeamID			INTEGER						NOT NULL
+	,strTeam			VARCHAR(50)					NOT NULL
+	,strMascot			VARCHAR(50)					NOT NULL
+	,intCoachID			INTEGER						NOT NULL
 	,CONSTRAINT TTeams_PK PRIMARY KEY ( intTeamID )
 )
 
@@ -150,7 +150,7 @@ CREATE TABLE TPlayers
 
 CREATE TABLE TTeamPlayers
 (
-	 intTeamID				INTEGER						NOT NULL
+	 intTeamID			INTEGER						NOT NULL
 	,intPlayerID			INTEGER						NOT NULL
 	,CONSTRAINT TTeamPlayer_PK PRIMARY KEY ( intTeamID, intPlayerID )
 )
@@ -158,11 +158,11 @@ CREATE TABLE TTeamPlayers
 -- --------------------------------------------------------------------------------
 -- Step #2.2 Identify and Create Foreign Keys 
 -- --------------------------------------------------------------------------------
---		Child						Parent					Column(s)
---		-----						------					---------
--- 1	TTeams						TCoaches				intCoachID
--- 2	TTeamPlayers				TTeams					intTeamID
--- 3	TTeamPlayers				TPlayers				intPlayerID
+--	Child				Parent					Column(s)
+--	-----				------					---------
+-- 1	TTeams				TCoaches				intCoachID
+-- 2	TTeamPlayers			TTeams					intTeamID
+-- 3	TTeamPlayers			TPlayers				intPlayerID
 
 --1
 ALTER TABLE TTeams ADD CONSTRAINT TTeams_TCoaches_FK
@@ -182,10 +182,10 @@ FOREIGN KEY ( intPlayerID ) REFERENCES TPlayers ( intPlayerID )
 GO
 
 CREATE PROCEDURE uspAddCoach
-	 @intCoachID			AS INTEGER OUTPUT
-	,@strFirstName			AS VARCHAR(50)
-	,@strLastName			AS VARCHAR(50)
-	,@strPhoneNumber		AS VARCHAR(50)
+	 @intCoachID     AS INTEGER OUTPUT
+	,@strFirstName	 AS VARCHAR(50)
+	,@strLastName    AS VARCHAR(50)
+	,@strPhoneNumber AS VARCHAR(50)
 AS
 SET NOCOUNT ON     --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
@@ -215,10 +215,10 @@ PRINT 'intCoachID = ' + CONVERT( VARCHAR, @intCoachID )
 GO
 
 CREATE PROCEDURE uspAddTeam
-	 @intTeamID				AS INTEGER OUTPUT
-	,@strTeam				AS VARCHAR(50)
-	,@strMascot				AS VARCHAR(50)
-	,@intCoachID			AS VARCHAR(50)
+	 @intTeamID  AS INTEGER OUTPUT
+	,@strTeam    AS VARCHAR(50)
+	,@strMascot  AS VARCHAR(50)
+	,@intCoachID AS VARCHAR(50)
 AS
 SET NOCOUNT ON     --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
@@ -248,10 +248,10 @@ PRINT 'intTeamID = ' + CONVERT( VARCHAR, @intTeamID )
 GO
 
 CREATE PROCEDURE uspAddPlayer
-	 @intPlayerID			AS INTEGER OUTPUT
-	,@strFirstName			AS VARCHAR(50)
-	,@strLastName			AS VARCHAR(50)
-	,@strPhoneNumber		AS VARCHAR(50)
+	 @intPlayerID		AS INTEGER OUTPUT
+	,@strFirstName		AS VARCHAR(50)
+	,@strLastName		AS VARCHAR(50)
+	,@strPhoneNumber 	AS VARCHAR(50)
 AS
 SET NOCOUNT ON     --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
@@ -281,15 +281,15 @@ PRINT 'intPlayerID = ' + CONVERT( VARCHAR, @intPlayerID )
 GO
 
 CREATE PROCEDURE uspAddTeamCoachAndPlayer
-	 @strTeam				AS VARCHAR(50)
-	,@strMascot				AS VARCHAR(50)
+ 	 @strTeam		AS VARCHAR(50)
+	,@strMascot		AS VARCHAR(50)
 
-	,@strCoachFirstName		AS VARCHAR(50)
-	,@strCoachLastName		AS VARCHAR(50)
+	,@strCoachFirstName	AS VARCHAR(50)
+	,@strCoachLastName	AS VARCHAR(50)
 	,@strCoachPhoneNumber	AS VARCHAR(50)
 
 	,@strPlayerFirstName	AS VARCHAR(50)
-	,@strPlayerLastName		AS VARCHAR(50)
+	,@strPlayerLastName	AS VARCHAR(50)
 	,@strPlayerPhoneNumber	AS VARCHAR(50)
 AS
 SET NOCOUNT ON
@@ -297,8 +297,8 @@ SET XACT_ABORT ON
 
 BEGIN TRANSACTION
 
-	DECLARE @intCoachID		AS INTEGER = 0;
-	DECLARE @intTeamID		AS INTEGER = 0;
+	DECLARE @intCoachID	AS INTEGER = 0;
+	DECLARE @intTeamID	AS INTEGER = 0;
 	DECLARE @intPlayerID	AS INTEGER = 0;
 
 	--Add Coach
