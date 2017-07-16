@@ -13,32 +13,32 @@ SET NOCOUNT ON; -- Report only errors
 -- --------------------------------------------------------------------------------
 -- Drop Tables
 -- --------------------------------------------------------------------------------
-IF OBJECT_ID( 'TUserFavoriteSongs' )			IS NOT NULL DROP TABLE TUserFavoriteSongs
-IF OBJECT_ID( 'TUsers' )						IS NOT NULL DROP TABLE TUsers
-IF OBJECT_ID( 'TSongs' )						IS NOT NULL DROP TABLE TSongs
-IF OBJECT_ID( 'TGenres' )						IS NOT NULL DROP TABLE TGenres
+IF OBJECT_ID( 'TUserFavoriteSongs' )		IS NOT NULL DROP TABLE TUserFavoriteSongs
+IF OBJECT_ID( 'TUsers' )			IS NOT NULL DROP TABLE TUsers
+IF OBJECT_ID( 'TSongs' )			IS NOT NULL DROP TABLE TSongs
+IF OBJECT_ID( 'TGenres' )			IS NOT NULL DROP TABLE TGenres
 
-IF OBJECT_ID( 'TCourseStudents' )				IS NOT NULL DROP TABLE TCourseStudents
-IF OBJECT_ID( 'TGrades' )						IS NOT NULL DROP TABLE TGrades
-IF OBJECT_ID( 'TStudents' )						IS NOT NULL DROP TABLE TStudents
-IF OBJECT_ID( 'TMajors' )						IS NOT NULL DROP TABLE TMajors
-IF OBJECT_ID( 'TCourses' )						IS NOT NULL DROP TABLE TCourses
-IF OBJECT_ID( 'TRooms' )						IS NOT NULL DROP TABLE TRooms
-IF OBJECT_ID( 'TInstructors' )					IS NOT NULL DROP TABLE TInstructors
-IF OBJECT_ID( 'TCourseStudentChangeLogs' )		IS NOT NULL DROP TABLE TCourseStudentChangeLogs
+IF OBJECT_ID( 'TCourseStudents' )		IS NOT NULL DROP TABLE TCourseStudents
+IF OBJECT_ID( 'TGrades' )			IS NOT NULL DROP TABLE TGrades
+IF OBJECT_ID( 'TStudents' )			IS NOT NULL DROP TABLE TStudents
+IF OBJECT_ID( 'TMajors' )			IS NOT NULL DROP TABLE TMajors
+IF OBJECT_ID( 'TCourses' )			IS NOT NULL DROP TABLE TCourses
+IF OBJECT_ID( 'TRooms' )			IS NOT NULL DROP TABLE TRooms
+IF OBJECT_ID( 'TInstructors' )			IS NOT NULL DROP TABLE TInstructors
+IF OBJECT_ID( 'TCourseStudentChangeLogs' )	IS NOT NULL DROP TABLE TCourseStudentChangeLogs
 
-IF OBJECT_ID( 'uspDropUserForeignKeys' )		IS NOT NULL DROP PROCEDURE uspDropUserForeignKeys
-IF OBJECT_ID( 'uspDropUserViews' )				IS NOT NULL DROP PROCEDURE uspDropUserViews
-IF OBJECT_ID( 'uspDropUserTables' )				IS NOT NULL DROP PROCEDURE uspDropUserTables
+IF OBJECT_ID( 'uspDropUserForeignKeys' )	IS NOT NULL DROP PROCEDURE uspDropUserForeignKeys
+IF OBJECT_ID( 'uspDropUserViews' )		IS NOT NULL DROP PROCEDURE uspDropUserViews
+IF OBJECT_ID( 'uspDropUserTables' )		IS NOT NULL DROP PROCEDURE uspDropUserTables
 IF OBJECT_ID( 'uspDropUserStoredProcedures' )	IS NOT NULL DROP PROCEDURE uspDropUserStoredProcedures
-IF OBJECT_ID( 'uspCleanDatabase' )				IS NOT NULL DROP PROCEDURE uspCleanDatabase
+IF OBJECT_ID( 'uspCleanDatabase' )		IS NOT NULL DROP PROCEDURE uspCleanDatabase
 
 -- --------------------------------------------------------------------------------
 -- Step 1.1 - Create Tables
 -- --------------------------------------------------------------------------------
 CREATE TABLE TUsers 
 (
-	 intUserID					INTEGER							NOT NULL
+	 intUserID				INTEGER							NOT NULL
 	,strFirstName				VARCHAR(50)						NOT NULL
 	,strLastName				VARCHAR(50)						NOT NULL
 	,CONSTRAINT TUsers_PK PRIMARY KEY ( intUserID )
@@ -46,24 +46,24 @@ CREATE TABLE TUsers
 
 CREATE TABLE TSongs
 (
-	 intSongID					INTEGER							NOT NULL
-	,strSong					VARCHAR(50)						NOT NULL
-	,strArtist					VARCHAR(50)						NOT NULL
-	,intGenreID					INTEGER							NOT NULL
+	 intSongID				INTEGER							NOT NULL
+	,strSong				VARCHAR(50)						NOT NULL
+	,strArtist				VARCHAR(50)						NOT NULL
+	,intGenreID				INTEGER							NOT NULL
 	,CONSTRAINT TSongs_PK PRIMARY KEY ( intSongID )
 )
 
 CREATE TABLE TGenres
 (
-	 intGenreID					INTEGER							NOT NULL
-	,strGenre					VARCHAR(50)						NOT NULL
+	 intGenreID				INTEGER							NOT NULL
+	,strGenre				VARCHAR(50)						NOT NULL
 	,CONSTRAINT TGenres_PK PRIMARY KEY ( intGenreID )
 )
 
 CREATE TABLE TUserFavoriteSongs
 (	
-	 intUserID					INTEGER							NOT NULL
-	,intSongID					INTEGER							NOT NULL
+	 intUserID				INTEGER							NOT NULL
+	,intSongID				INTEGER							NOT NULL
 	,intSortOrder				INTEGER							NOT NULL
 	,CONSTRAINT TUserFavoriteSongs_PK PRIMARY KEY ( intUserID, intSongID )			
 )
@@ -71,11 +71,11 @@ CREATE TABLE TUserFavoriteSongs
 -- --------------------------------------------------------------------------------
 -- Step #1.2 Identify and Create Foreign Keys 
 -- --------------------------------------------------------------------------------
---		Child						Parent					Column(s)
---		-----						------					---------
+--	Child					Parent					Column(s)
+--	-----					------					---------
 -- 1	TUserFavoriteSongs			TUsers					intUserID
 -- 2	TUserFavoriteSongs			TSongs					intSongID
--- 3	TSongs						TGenres					intGenreID
+-- 3	TSongs					TGenres					intGenreID
 
 --1
 ALTER TABLE TUserFavoriteSongs ADD CONSTRAINT TUserFavoriteSongs_TUsers_FK
@@ -94,49 +94,49 @@ FOREIGN KEY ( intGenreID ) REFERENCES TGenres ( intGenreID )
 -- --------------------------------------------------------------------------------
 INSERT INTO TUsers ( intUserID, strFirstName, strLastName )
 VALUES   ( 1, 'Mary', 'Braun' )
-		,( 2, 'James', 'Jamison' )
-		,( 3, 'Longwind', 'Sparklepants' )
-		,( 4, 'Maris', 'Marquette' )
-		,( 5, 'Brandon', 'Brandywine' )
+	,( 2, 'James', 'Jamison' )
+	,( 3, 'Longwind', 'Sparklepants' )
+	,( 4, 'Maris', 'Marquette' )
+	,( 5, 'Brandon', 'Brandywine' )
 
 INSERT INTO TGenres ( intGenreID, strGenre )
 VALUES	 ( 1, 'Punk' )
-		,( 2, 'Hardcore' )
-		,( 3, '80''s Alternative' )
-		,( 4, 'Heavy Metal' )
+	,( 2, 'Hardcore' )
+	,( 3, '80''s Alternative' )
+	,( 4, 'Heavy Metal' )
 
 INSERT INTO TSongs ( intSongID, strSong, strArtist, intGenreID )
 VALUES   ( 1, 'Give Me Fire', 'GBH', 1 )
-		,( 2, 'Never Let Me Down Again', 'Depeche Mode', 3 )
-		,( 3, 'United and Strong', 'Agnostic Front', 2 )
-		,( 4, 'World Eater', 'Bolt Thrower', 4 )
-		,( 5, 'Punk''s Not Dead', 'The Exploited', 1 )
-		,( 6, 'How Soon is Now', 'The Smiths', 3 )
-		,( 7, 'You Suffer', 'Napalm Death', 4 )
-		,( 8, 'Birds Fly (Whisper to a Scream)', 'The Icicle Works', 3 )
+	,( 2, 'Never Let Me Down Again', 'Depeche Mode', 3 )
+	,( 3, 'United and Strong', 'Agnostic Front', 2 )
+	,( 4, 'World Eater', 'Bolt Thrower', 4 )
+	,( 5, 'Punk''s Not Dead', 'The Exploited', 1 )
+	,( 6, 'How Soon is Now', 'The Smiths', 3 )
+	,( 7, 'You Suffer', 'Napalm Death', 4 )
+	,( 8, 'Birds Fly (Whisper to a Scream)', 'The Icicle Works', 3 )
 
 INSERT INTO TUserFavoriteSongs ( intUserID, intSongID, intSortOrder )
 VALUES   ( 1, 2, 1 )
-		,( 1, 8, 2 )
-		,( 1, 3, 3 )
-		,( 2, 3, 1 )
-		,( 2, 4, 2 )
-		,( 2, 5, 3 )
-		,( 2, 6, 4 )
-		,( 3, 1, 1 )
-		,( 3, 2, 2 )
-		,( 3, 3, 3 )
-		,( 3, 6, 4 )
-		,( 3, 8, 5 )
-		,( 3, 7, 6 )
-		,( 4, 4, 1 )
-		,( 4, 2, 2 )
-		,( 4, 8, 3 )
-		,( 4, 6, 4 )
-		,( 5, 3, 1 )
-		,( 5, 8, 2 )
-		,( 5, 2, 3 )
-		,( 5, 1, 4 )
+	,( 1, 8, 2 )
+	,( 1, 3, 3 )
+	,( 2, 3, 1 )
+	,( 2, 4, 2 )
+	,( 2, 5, 3 )
+	,( 2, 6, 4 )
+	,( 3, 1, 1 )
+	,( 3, 2, 2 )
+	,( 3, 3, 3 )
+	,( 3, 6, 4 )
+	,( 3, 8, 5 )
+	,( 3, 7, 6 )
+	,( 4, 4, 1 )
+	,( 4, 2, 2 )
+	,( 4, 8, 3 )
+	,( 4, 6, 4 )
+	,( 5, 3, 1 )
+	,( 5, 8, 2 )
+	,( 5, 2, 3 )
+	,( 5, 1, 4 )
 
 -- --------------------------------------------------------------------------------
 -- Step 1.4 - Write a SELECT statement with at least 2 conditions linked with the 
@@ -199,7 +199,7 @@ CREATE TABLE TInstructors
 
 CREATE TABLE TRooms
 (
-	 intRoomID					INTEGER							NOT NULL
+	 intRoomID				INTEGER							NOT NULL
 	,strRoomNumber				VARCHAR(50)						NOT NULL
 	,intCapacity				INTEGER							NOT NULL
 	,CONSTRAINT TRooms_PK PRIMARY KEY ( intRoomID )
@@ -208,19 +208,19 @@ CREATE TABLE TRooms
 CREATE TABLE TCourses
 (
 	 intCourseID				INTEGER							NOT NULL
-	,strCourse					VARCHAR(50)						NOT NULL
+	,strCourse				VARCHAR(50)						NOT NULL
 	,strDescription				VARCHAR(50)						NOT NULL
 	,intInstructorID			INTEGER							NOT NULL
-	,intRoomID					INTEGER							NOT NULL
+	,intRoomID				INTEGER							NOT NULL
 	,strMeetingTimes			VARCHAR(50)						NOT NULL
-	,decCreditHours				DECIMAL(16,2)					NOT NULL
+	,decCreditHours				DECIMAL(16,2)						NOT NULL
 	,CONSTRAINT TCourses_PK PRIMARY KEY ( intCourseID )				
 )
 
 CREATE TABLE TMajors
 (
-	 intMajorID					INTEGER							NOT NULL
-	,strMajor					VARCHAR(50)						NOT NULL
+	 intMajorID				INTEGER							NOT NULL
+	,strMajor				VARCHAR(50)						NOT NULL
 	,CONSTRAINT TMajors_PK PRIMARY KEY ( intMajorID )
 )
 
@@ -229,15 +229,15 @@ CREATE TABLE TStudents
 	 intStudentID				INTEGER							NOT NULL
 	,strFirstName				VARCHAR(50)						NOT NULL
 	,strLastName				VARCHAR(50)						NOT NULL
-	,intMajorID					INTEGER							NOT NULL
+	,intMajorID				INTEGER							NOT NULL
 	,CONSTRAINT TStudents_PK PRIMARY KEY ( intStudentID )
 )
 
 CREATE TABLE TGrades
 (
-	 intGradeID					INTEGER							NOT NULL
+	 intGradeID				INTEGER							NOT NULL
 	,strGradeLetter				VARCHAR(50)						NOT NULL
-	,decGradePointValue			DECIMAL(16, 2)					NOT NULL
+	,decGradePointValue			DECIMAL(16, 2)						NOT NULL
 	,CONSTRAINT TGrades_PK PRIMARY KEY ( intGradeID )
 )
 
@@ -245,18 +245,18 @@ CREATE TABLE TCourseStudents
 (
 	 intCourseID				INTEGER							NOT NULL
 	,intStudentID				INTEGER							NOT NULL
-	,intGradeID					INTEGER							NOT NULL
+	,intGradeID				INTEGER							NOT NULL
 	,CONSTRAINT TCourseStudents_PK PRIMARY KEY ( intCourseID, intStudentID )
 )
 
 -- --------------------------------------------------------------------------------
 -- Step #2.2 Identify and Create Foreign Keys 
 -- --------------------------------------------------------------------------------
---		Child						Parent					Column(s)
---		-----						------					---------
--- 1	TCourses					TInstructors			intInstructorID
--- 2	TCourses					TRooms					intRoomID
--- 3	TStudents					TMajors					intMajorID
+--	Child					Parent					Column(s)
+--	-----					------					---------
+-- 1	TCourses				TInstructors				intInstructorID
+-- 2	TCourses				TRooms					intRoomID
+-- 3	TStudents				TMajors					intMajorID
 -- 4	TCourseStudents				TCourses				intCourseID
 -- 5	TCourseStudents				TStudents				intStudentID
 -- 6	TCourseStudents				TGrades					intGradeID
@@ -290,76 +290,76 @@ FOREIGN KEY ( intGradeID ) REFERENCES TGrades ( intGradeID )
 -- --------------------------------------------------------------------------------
 INSERT INTO TInstructors ( intInstructorID, strFirstName, strLastName )
 VALUES   ( 1, 'Nigel', 'Stringtheory' )
-		,( 2, 'Tatum', 'Hadroncollider' )
-		,( 3, 'Sebastian', 'Beryllium' )
-		,( 4, 'Erich', 'Hadoop' )
+	,( 2, 'Tatum', 'Hadroncollider' )
+	,( 3, 'Sebastian', 'Beryllium' )
+	,( 4, 'Erich', 'Hadoop' )
 
 INSERT INTO TRooms ( intRoomID, strRoomNumber, intCapacity )
 VALUES   ( 1, '407', 10 )
-		,( 2, '222', 5 )
-		,( 3, '820', 56 )
-		,( 4, '333', 4 ) 
+	,( 2, '222', 5 )
+	,( 3, '820', 56 )
+	,( 4, '333', 4 ) 
 
 INSERT INTO TCourses ( intCourseID, strCourse, strDescription, intInstructorID, intRoomID,
                        strMeetingTimes, decCreditHours )
 VALUES   ( 1, 'Philosophy 203', 'The Why of Quantum Jelly Beans', 1, 1, 'M/W: 2pm - 4pm', 3 )
-		,( 2, 'Biology 459', 'Fun with Microtubules', 2, 2, 'T: 10am - 12pm', 2 )
-		,( 3, 'Chemistry 350', 'Essential Apoptosis', 3, 3, 'T/R: 11am - 1pm', 4 )
-		,( 4, 'Chemistry 678', 'Redox Revisited', 4, 4, 'M/W/F: 8am - 9am', 3 )
+	,( 2, 'Biology 459', 'Fun with Microtubules', 2, 2, 'T: 10am - 12pm', 2 )
+	,( 3, 'Chemistry 350', 'Essential Apoptosis', 3, 3, 'T/R: 11am - 1pm', 4 )
+	,( 4, 'Chemistry 678', 'Redox Revisited', 4, 4, 'M/W/F: 8am - 9am', 3 )
 
 INSERT INTO TMajors ( intMajorID, strMajor )
 VALUES	 ( 1, 'Computer Science' )
-		,( 2, 'Accounting' )
-		,( 3, 'Microbiology' )
-		,( 4, 'Nursing' )
-		,( 5, 'Physics' )
-		,( 6, 'Chemistry' )
+	,( 2, 'Accounting' )
+	,( 3, 'Microbiology' )
+	,( 4, 'Nursing' )
+	,( 5, 'Physics' )
+	,( 6, 'Chemistry' )
 
 
 INSERT INTO TStudents ( intStudentID, strFirstName, strLastName, intMajorID )
 VALUES   ( 1, 'Melissa', 'Cobol', 1 )
-		,( 2, 'Farhad', 'Smalltalk', 2 )
-		,( 3, 'Alistair', 'Matlab', 3 )
-		,( 4, 'Cecily', 'Clojure', 4 )
-		,( 5, 'Graham', 'Cracker', 5 )
-		,( 6, 'Julie', 'Venow', 6 )
-		,( 7, 'Karl', 'Withakay', 1 )
-		,( 8, 'Sunshine', 'Day', 2 )
-		,( 9, 'Hugh', 'Holly', 3 )
-		,( 10, 'Christmas', 'Lane', 4 )
-		,( 11, 'Heidi', 'Hoelle', 5 )
+	,( 2, 'Farhad', 'Smalltalk', 2 )
+	,( 3, 'Alistair', 'Matlab', 3 )
+	,( 4, 'Cecily', 'Clojure', 4 )
+	,( 5, 'Graham', 'Cracker', 5 )
+	,( 6, 'Julie', 'Venow', 6 )
+	,( 7, 'Karl', 'Withakay', 1 )
+	,( 8, 'Sunshine', 'Day', 2 )
+	,( 9, 'Hugh', 'Holly', 3 )
+	,( 10, 'Christmas', 'Lane', 4 )
+	,( 11, 'Heidi', 'Hoelle', 5 )
 
 INSERT INTO TGrades ( intGradeID, strGradeLetter, decGradePointValue )
 VALUES   ( 1, 'A', 4.0 )
-		,( 2, 'B', 3.0 )
-		,( 3, 'C', 2.0 )
-		,( 4, 'D', 1.0 )
-		,( 5, 'F', 0.0 )
-		,( 6, 'S', 4.0 )
-		,( 7, 'N', 0.0 )
-		,( 8, 'I', 0.0 )
-		,( 9, 'W', 0.0 )
+	,( 2, 'B', 3.0 )
+	,( 3, 'C', 2.0 )
+	,( 4, 'D', 1.0 )
+	,( 5, 'F', 0.0 )
+	,( 6, 'S', 4.0 )
+	,( 7, 'N', 0.0 )
+	,( 8, 'I', 0.0 )
+	,( 9, 'W', 0.0 )
 
 INSERT INTO TCourseStudents ( intCourseID, intStudentID, intGradeID )
 VALUES   ( 1, 3, 3 ) 
-		,( 1, 4, 1 )
-		,( 1, 1, 2 )
-		,( 1, 7, 4 )
-		,( 1, 8, 1 )
-		,( 1, 10, 6 )
-		,( 1, 5, 8 )
-		,( 1, 6, 5 )
-		,( 1, 9, 7 )
-		,( 1, 11, 9 )
-		,( 2, 1, 2 )
-		,( 2, 4, 7 )
-		,( 2, 3, 1 )
-		,( 2, 10, 2 )
-		,( 4, 1, 4 )
-		,( 4, 3, 1 )
-		,( 4, 4, 5 )
-		,( 4, 8, 1 )
-		,( 4, 10, 6 )
+	,( 1, 4, 1 )
+	,( 1, 1, 2 )
+	,( 1, 7, 4 )
+	,( 1, 8, 1 )
+	,( 1, 10, 6 )
+	,( 1, 5, 8 )
+	,( 1, 6, 5 )
+	,( 1, 9, 7 )
+	,( 1, 11, 9 )
+	,( 2, 1, 2 )
+	,( 2, 4, 7 )
+	,( 2, 3, 1 )
+	,( 2, 10, 2 )
+	,( 4, 1, 4 )
+	,( 4, 3, 1 )
+	,( 4, 4, 5 )
+	,( 4, 8, 1 )
+	,( 4, 10, 6 )
 
 -- --------------------------------------------------------------------------------
 -- Step #2.4 Create a history/log table for TCourseStudents (TCS) named 
@@ -374,7 +374,7 @@ CREATE TABLE TCourseStudentChangeLogs
 	,intChangeIndex				INTEGER							NOT NULL
 	,dtmChangedDate				DATETIME						NOT NULL
 	,strChangedBy				VARCHAR(50)						NOT NULL
-	,intGradeID					INTEGER							NOT NULL
+	,intGradeID				INTEGER							NOT NULL
 	,CONSTRAINT TCourseStudentChangeLogs_PK PRIMARY KEY ( intCourseID, intStudentID, intChangeIndex )
 )
 
@@ -442,7 +442,7 @@ SET
 	intGradeID = 2
 WHERE
 	 intCourseID  = 1
- AND intStudentID = 3
+     AND intStudentID = 3
 
 SELECT
 	*
@@ -450,7 +450,7 @@ FROM
 	TCourseStudents
 WHERE  
 	 intCourseID  = 1
- AND intStudentID = 3
+     AND intStudentID = 3
 
 SELECT 
 	* 
@@ -492,8 +492,8 @@ CREATE PROCEDURE uspDropUserForeignKeys
 AS
 SET NOCOUNT ON
 DECLARE @strMessage		VARCHAR(250)
-DECLARE @strForeignKey	VARCHAR(250)
-DECLARE @strChildTable	VARCHAR(250)
+DECLARE @strForeignKey		VARCHAR(250)
+DECLARE @strChildTable		VARCHAR(250)
 DECLARE @strCommand		VARCHAR(250)
 DECLARE @chrTab			CHAR = CHAR(9)
 
@@ -502,17 +502,17 @@ PRINT @chrTab + 'DROP ALL USER FOREIGN KEYS ...'
 
 DECLARE crsForeignKeys CURSOR FOR
 SELECT
-	 name						AS strForeignKey
+	 name				AS strForeignKey
 	,OBJECT_NAME( parent_obj )	AS strChildTable
 
 FROM
 	SysObjects
 WHERE
-		type		=	'F'				/* Foreign Keys Only */
+		    type	=	'F'		/* Foreign Keys Only */
 	AND (		
-				name	LIKE	'%_FK'
-			OR  name	LIKE	'%_FK_'
-		)
+		    name	LIKE	'%_FK'
+		OR  name	LIKE	'%_FK_'
+	    )
 	AND OBJECT_NAME( parent_obj ) LIKE	'T%'
 ORDER BY
 	name
@@ -558,7 +558,7 @@ AS
 SET NOCOUNT ON
 
 DECLARE @strMessage		VARCHAR(250)
-DECLARE @strUserView	VARCHAR(250)
+DECLARE @strUserView		VARCHAR(250)
 DECLARE @strCommand		VARCHAR(250)
 DECLARE @chrTab			CHAR = CHAR(9)
 
@@ -571,8 +571,8 @@ SELECT
 FROM
 	SysObjects
 WHERE
-			type	=		'V'     /* Views Only */
-	AND		name	LIKE	'V%' 
+		type	=	'V'     /* Views Only */
+	AND	name	LIKE	'V%' 
 ORDER BY
 	name
 
@@ -617,7 +617,7 @@ AS
 SET NOCOUNT ON
 
 DECLARE @strMessage		VARCHAR(250)
-DECLARE @strUserTable	VARCHAR(250)
+DECLARE @strUserTable		VARCHAR(250)
 DECLARE @strCommand		VARCHAR(250)
 DECLARE @chrTab			CHAR = CHAR(9)
 
@@ -630,8 +630,8 @@ SELECT
 FROM
 	SysObjects
 WHERE
-			type	=		'U'     /* User Tables Only */
-	AND		name	LIKE	'T%' 
+		type	=	'U'     /* User Tables Only */
+	AND	name	LIKE	'T%' 
 ORDER BY
 	name
 
@@ -677,7 +677,7 @@ CREATE PROCEDURE uspDropUserStoredProcedures
 AS
 SET NOCOUNT ON
 DECLARE @strMessage				VARCHAR(250)
-DECLARE @strUserStoredProcedure	VARCHAR(250)
+DECLARE @strUserStoredProcedure			VARCHAR(250)
 DECLARE @strCommand				VARCHAR(250)
 DECLARE @chrTab					CHAR = CHAR(9)
 
@@ -690,13 +690,13 @@ SELECT
 FROM
 	SysObjects
 WHERE
-			type	=		'P'     /* Stored Procedures Only */
-	AND		name	LIKE	'usp%' 
-	AND		name    <>      'uspDropUserForeignKeys'
-	AND     name    <>		'uspDropUserViews'
-	AND		name	<>		'uspDropUserTables'
-	AND		name	<>		'uspDropUserStoredProcedures'
-	AND		name	<>		'uspCleanDatabase'
+		type	=	'P'     /* Stored Procedures Only */
+	AND	name	LIKE	'usp%' 
+	AND	name    <>      'uspDropUserForeignKeys'
+	AND     name    <>	'uspDropUserViews'
+	AND	name	<>	'uspDropUserTables'
+	AND	name	<>	'uspDropUserStoredProcedures'
+	AND	name	<>	'uspCleanDatabase'
 ORDER BY
 	name
 
