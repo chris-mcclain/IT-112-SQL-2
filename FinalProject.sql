@@ -13,66 +13,66 @@ SET NOCOUNT ON; -- Report only errors
 -- --------------------------------------------------------------------------------
 -- Drop Tables
 -- --------------------------------------------------------------------------------
-IF OBJECT_ID( 'TDrugKits' )								IS NOT NULL DROP TABLE TDrugKits
-IF OBJECT_ID( 'TPatientVisits' )						IS NOT NULL DROP TABLE TPatientVisits
-IF OBJECT_ID( 'TWithdrawReasons' )						IS NOT NULL DROP TABLE TWithdrawReasons
-IF OBJECT_ID( 'TVisitTypes' )							IS NOT NULL DROP TABLE TVisitTypes
-IF OBJECT_ID( 'TPatients' )								IS NOT NULL DROP TABLE TPatients
-IF OBJECT_ID( 'TGenders' )								IS NOT NULL DROP TABLE TGenders
-IF OBJECT_ID( 'TRandomCodes' )							IS NOT NULL DROP TABLE TRandomCodes
-IF OBJECT_ID( 'TSites' )								IS NOT NULL DROP TABLE TSites
-IF OBJECT_ID( 'TStudies' )								IS NOT NULL DROP TABLE TStudies
-IF OBJECT_ID( 'VStudyPatients' )						IS NOT NULL DROP VIEW VStudyPatients
-IF OBJECT_ID( 'VRandomizedPatients' )					IS NOT NULL DROP VIEW VRandomizedPatients
+IF OBJECT_ID( 'TDrugKits' )				IS NOT NULL DROP TABLE TDrugKits
+IF OBJECT_ID( 'TPatientVisits' )			IS NOT NULL DROP TABLE TPatientVisits
+IF OBJECT_ID( 'TWithdrawReasons' )			IS NOT NULL DROP TABLE TWithdrawReasons
+IF OBJECT_ID( 'TVisitTypes' )				IS NOT NULL DROP TABLE TVisitTypes
+IF OBJECT_ID( 'TPatients' )				IS NOT NULL DROP TABLE TPatients
+IF OBJECT_ID( 'TGenders' )				IS NOT NULL DROP TABLE TGenders
+IF OBJECT_ID( 'TRandomCodes' )				IS NOT NULL DROP TABLE TRandomCodes
+IF OBJECT_ID( 'TSites' )				IS NOT NULL DROP TABLE TSites
+IF OBJECT_ID( 'TStudies' )				IS NOT NULL DROP TABLE TStudies
+IF OBJECT_ID( 'VStudyPatients' )			IS NOT NULL DROP VIEW VStudyPatients
+IF OBJECT_ID( 'VRandomizedPatients' )			IS NOT NULL DROP VIEW VRandomizedPatients
 IF OBJECT_ID( 'VNextAvailableRandomCodeStudy12345' )	IS NOT NULL DROP VIEW VNextAvailableRandomCodeStudy12345
 IF OBJECT_ID( 'VNextAvailableRandomCodeStudy54321' )	IS NOT NULL DROP VIEW VNextAvailableRandomCodeStudy54321
-IF OBJECT_ID( 'VAvailableDrugKitsStudy12345' )			IS NOT NULL DROP VIEW VAvailableDrugKitsStudy12345
-IF OBJECT_ID( 'VAvailableDrugKitsStudy54321' )			IS NOT NULL DROP VIEW VAvailableDrugKitsStudy54321
-IF OBJECT_ID( 'VWithdrawnPatients' )					IS NOT NULL DROP VIEW VWithdrawnPatients
-IF OBJECT_ID( 'VHighestPatientID' )						IS NOT NULL DROP VIEW VHighestPatientID
-IF OBJECT_ID( 'VHighestVisitID' )						IS NOT NULL DROP VIEW VHighestVisitID
-IF OBJECT_ID( 'VPatientStudies' )						IS NOT NULL DROP VIEW VPatientStudies
-IF OBJECT_ID( 'uspScreenPatient' )						IS NOT NULL DROP PROCEDURE uspScreenPatient
-IF OBJECT_ID( 'uspRandomizePatient' )					IS NOT NULL DROP PROCEDURE uspRandomizePatient
-IF OBJECT_ID( 'uspWithdrawPatient' )					IS NOT NULL DROP PROCEDURE uspWithdrawPatient
+IF OBJECT_ID( 'VAvailableDrugKitsStudy12345' )		IS NOT NULL DROP VIEW VAvailableDrugKitsStudy12345
+IF OBJECT_ID( 'VAvailableDrugKitsStudy54321' )		IS NOT NULL DROP VIEW VAvailableDrugKitsStudy54321
+IF OBJECT_ID( 'VWithdrawnPatients' )			IS NOT NULL DROP VIEW VWithdrawnPatients
+IF OBJECT_ID( 'VHighestPatientID' )			IS NOT NULL DROP VIEW VHighestPatientID
+IF OBJECT_ID( 'VHighestVisitID' )			IS NOT NULL DROP VIEW VHighestVisitID
+IF OBJECT_ID( 'VPatientStudies' )			IS NOT NULL DROP VIEW VPatientStudies
+IF OBJECT_ID( 'uspScreenPatient' )			IS NOT NULL DROP PROCEDURE uspScreenPatient
+IF OBJECT_ID( 'uspRandomizePatient' )			IS NOT NULL DROP PROCEDURE uspRandomizePatient
+IF OBJECT_ID( 'uspWithdrawPatient' )			IS NOT NULL DROP PROCEDURE uspWithdrawPatient
 
 -- --------------------------------------------------------------------------------
 -- Step 2 - Create Tables
 -- --------------------------------------------------------------------------------
 CREATE TABLE TStudies
 (
-	 intStudyID				INTEGER				NOT NULL
+	 intStudyID			INTEGER				NOT NULL
 	,strStudyDesc			VARCHAR(50)			NOT NULL
 	,CONSTRAINT TStudies_PK PRIMARY KEY ( intStudyID )
 )
 
 CREATE TABLE TSites
 (
-	 intSiteID				INTEGER				NOT NULL
-	,intStudyID				INTEGER				NOT NULL
-	,strName				VARCHAR(50)			NOT NULL
-	,strAddress				VARCHAR(100)		NOT NULL
-	,strCity				VARCHAR(50)			NOT NULL
-	,strState				VARCHAR(50)			NOT NULL
-	,strZip					VARCHAR(50)			NOT NULL
-	,strPhone				VARCHAR(50)			NOT NULL
+	 intSiteID			INTEGER				NOT NULL
+	,intStudyID			INTEGER				NOT NULL
+	,strName			VARCHAR(50)			NOT NULL
+	,strAddress			VARCHAR(100)			NOT NULL
+	,strCity			VARCHAR(50)			NOT NULL
+	,strState			VARCHAR(50)			NOT NULL
+	,strZip				VARCHAR(50)			NOT NULL
+	,strPhone			VARCHAR(50)			NOT NULL
 	,CONSTRAINT TSites_PK PRIMARY KEY ( intSiteID )
 )
 
 CREATE TABLE TGenders
 (
 	 intGenderID			INTEGER				NOT NULL
-	,strGender				VARCHAR(50)			NOT NULL
+	,strGender			VARCHAR(50)			NOT NULL
 	,CONSTRAINT TGenders_PK PRIMARY KEY( intGenderID )
 )
 
 CREATE TABLE TPatients
 (
 	 intPatientID			INTEGER				NOT NULL
-	,intSiteID				INTEGER				NOT NULL
-	,dtmDOB					DATETIME			NOT NULL
+	,intSiteID			INTEGER				NOT NULL
+	,dtmDOB				DATETIME			NOT NULL
 	,intGenderID			INTEGER				NOT NULL
-	,intWeight				INTEGER				NOT NULL
+	,intWeight			INTEGER				NOT NULL
 	,intRandomCodeID		INTEGER
 	,CONSTRAINT TPatients_PK PRIMARY KEY ( intPatientID )
 )
@@ -80,7 +80,7 @@ CREATE TABLE TPatients
 CREATE TABLE TRandomCodes
 (
 	 intRandomCodeID		INTEGER				NOT NULL
-	,intStudyID				INTEGER				NOT NULL
+	,intStudyID			INTEGER				NOT NULL
 	,strTreatment			VARCHAR(50)			NOT NULL
 	,blnAvailable			CHAR				NOT NULL
 	,CONSTRAINT TRandomCodes_PK PRIMARY KEY ( intRandomCodeID )
@@ -95,17 +95,17 @@ CREATE TABLE TVisitTypes
 
 CREATE TABLE TPatientVisits
 (
-	 intVisitID				INTEGER				NOT NULL
+	 intVisitID			INTEGER				NOT NULL
 	,intPatientID			INTEGER				NOT NULL
-	,dtmVisit				DATETIME			NOT NULL
+	,dtmVisit			DATETIME			NOT NULL
 	,intVisitTypeID			INTEGER				NOT NULL
-	,intWithdrawReasonID	INTEGER		
+	,intWithdrawReasonID		INTEGER		
 	,CONSTRAINT TPatientVisits_PK PRIMARY KEY ( intVisitID )
 )
 
 CREATE TABLE TWithdrawReasons
 (
-	 intWithdrawReasonID	INTEGER				NOT NULL
+	 intWithdrawReasonID		INTEGER				NOT NULL
 	,strWithdrawDesc		VARCHAR(50)			NOT NULL
 	,CONSTRAINT TWithdrawReasons_PK PRIMARY KEY ( intWithdrawReasonID )
 )
@@ -113,27 +113,27 @@ CREATE TABLE TWithdrawReasons
 CREATE TABLE TDrugKits
 (
 	 intDrugKitID			INTEGER				NOT NULL
-	,intSiteID				INTEGER				NOT NULL
+	,intSiteID			INTEGER				NOT NULL
 	,strTreatment			VARCHAR(50)			NOT NULL
-	,intVisitID				INTEGER				
+	,intVisitID			INTEGER				
 	,CONSTRAINT TDrugKits_PK PRIMARY KEY ( intDrugKitID )
 )
 
 -- --------------------------------------------------------------------------------
 -- Identify and Create Foreign Keys 
 -- --------------------------------------------------------------------------------
---		Child							Parent						Column(s)
---		-----							------						---------
--- 1	TSites							TStudies					intStudyID
--- 2	TPatients						TSites						intSiteID
--- 3	TPatients						TGenders					intGenderID
--- 4    TPatients						TRandomCodes				intRandomCodeID
+--	Child						Parent						Column(s)
+--	-----						------						---------
+-- 1	TSites						TStudies					intStudyID
+-- 2	TPatients					TSites						intSiteID
+-- 3	TPatients					TGenders					intGenderID
+-- 4    TPatients					TRandomCodes					intRandomCodeID
 -- 5	TRandomCodes					TStudies					intStudyID
 -- 6	TPatientVisits					TPatients					intPatientID
--- 7	TPatientVisits					TVisitTypes 				intVisitTypeID
--- 8	TPatientVisits					TWithdrawReasons			intWithdrawReasonID
--- 9	TDrugKits						TSites						intSiteID
--- 10	TDrugKits						TPatientVisits				intVisitID
+-- 7	TPatientVisits					TVisitTypes 					intVisitTypeID
+-- 8	TPatientVisits					TWithdrawReasons				intWithdrawReasonID
+-- 9	TDrugKits					TSites						intSiteID
+-- 10	TDrugKits					TPatientVisits					intVisitID
 
 -- 1
 ALTER TABLE TSites ADD CONSTRAINT TSites_TStudies_FK
@@ -180,160 +180,160 @@ FOREIGN KEY ( intVisitID ) REFERENCES TPatientVisits ( intVisitID )
 -- --------------------------------------------------------------------------------
 INSERT INTO TStudies ( intStudyID, strStudyDesc )
 VALUES   ( 12345, 'Study 1' )
-		,( 54321, 'Study 2' )
+	,( 54321, 'Study 2' )
 
 INSERT INTO TGenders ( intGenderID, strGender )
 VALUES	 ( 1, 'M' )
-		,( 2, 'F' )
+	,( 2, 'F' )
 
 INSERT INTO TVisitTypes( intVisitTypeID, strVisitDesc )
 VALUES	 ( 1, 'Screening' )
-		,( 2, 'Randomization' )
-		,( 3, 'Withdrawal' )
+	,( 2, 'Randomization' )
+	,( 3, 'Withdrawal' )
 
 INSERT INTO TSites( intSiteID, intStudyID, strName, strAddress, strCity, strState, strZip, strPhone )
 VALUES	 ( 101,  12345, 'Dr. Stan Heinrich', '123 E. Main St', 'Atlanta', 'GA', '25869', '1234567890' )
-		,( 111,  12345, 'Mercy Hospital', '3456 Elmhurst Rd.', 'Secaucus', 'NJ', '32659', '5013629564' )
-		,( 121,  12345, 'St. Elizabeth Hospital', '976 Jackson Way', 'Ft. Thomas', 'KY', '41258', '3026521478' )
-		,( 131,  12345, 'Dr. Jim Smith', '32454 Morris Rd.', 'Hamilton', 'OH', '45013', '3256847596' )
-		,( 141,  12345, 'Dr. Dan Jones', '1865 Jelico Hwy.', 'Knoxville', 'TN', '34568', '2145798241' )
-		,( 501,  54321, 'Dr. Robert Adler', '9087 W. Maple Ave.', 'Cedar Rapids', 'IA', '42365', '6149652574' )
-		,( 511,  54321, 'Dr. Tim Schmitz', '4539 Helena Run', 'Johnson City', 'TN', '34785', '5066987462' )
-		,( 521,  54321, 'Dr. Lawrence Snell', '9201 NW. Washington Blvd.', 'Bristol', 'VA', '20163', '3876510249' )
-		,( 531,  54321, 'Cedar Sinai Medical Center', '40321 Hollywood Blvd.', 'Portland', 'OR', '50236', '5439510246' )
-		,( 541,	 54321, 'Vally View Hospital', '398 Hampton Rd.', 'Seattle', 'WA', '41203', '7243780036' )
+	,( 111,  12345, 'Mercy Hospital', '3456 Elmhurst Rd.', 'Secaucus', 'NJ', '32659', '5013629564' )
+	,( 121,  12345, 'St. Elizabeth Hospital', '976 Jackson Way', 'Ft. Thomas', 'KY', '41258', '3026521478' )
+	,( 131,  12345, 'Dr. Jim Smith', '32454 Morris Rd.', 'Hamilton', 'OH', '45013', '3256847596' )
+	,( 141,  12345, 'Dr. Dan Jones', '1865 Jelico Hwy.', 'Knoxville', 'TN', '34568', '2145798241' )
+	,( 501,  54321, 'Dr. Robert Adler', '9087 W. Maple Ave.', 'Cedar Rapids', 'IA', '42365', '6149652574' )
+	,( 511,  54321, 'Dr. Tim Schmitz', '4539 Helena Run', 'Johnson City', 'TN', '34785', '5066987462' )
+	,( 521,  54321, 'Dr. Lawrence Snell', '9201 NW. Washington Blvd.', 'Bristol', 'VA', '20163', '3876510249' )
+	,( 531,  54321, 'Cedar Sinai Medical Center', '40321 Hollywood Blvd.', 'Portland', 'OR', '50236', '5439510246' )
+	,( 541,	 54321, 'Vally View Hospital', '398 Hampton Rd.', 'Seattle', 'WA', '41203', '7243780036' )
 
 INSERT INTO TRandomCodes( intRandomCodeID, intStudyID, strTreatment, blnAvailable )
 VALUES   ( 1000, 12345, 'A', 'T' )
-		,( 1001, 12345, 'P', 'T' )
-		,( 1002, 12345, 'A', 'T' )
-		,( 1003, 12345, 'P', 'T' )
-		,( 1004, 12345, 'P', 'T' )
-		,( 1005, 12345, 'A', 'T' )
-		,( 1006, 12345, 'A', 'T' )
-		,( 1007, 12345, 'P', 'T' )
-		,( 1008, 12345, 'A', 'T' )
-		,( 1009, 12345, 'P', 'T' )
-		,( 1010, 12345, 'P', 'T' )
-		,( 1011, 12345, 'A', 'T' )
-		,( 1012, 12345, 'P', 'T' )
-		,( 1013, 12345, 'A', 'T' )
-		,( 1014, 12345, 'A', 'T' )
-		,( 1015, 12345, 'A', 'T' )
-		,( 1016, 12345, 'P', 'T' )
-		,( 1017, 12345, 'P', 'T' )
-		,( 1018, 12345, 'A', 'T' )
-		,( 1019, 12345, 'P', 'T' )
-		,( 5000, 54321, 'A', 'T' )
-		,( 5001, 54321, 'A', 'T' )
-		,( 5002, 54321, 'A', 'T' )
-		,( 5003, 54321, 'A', 'T' )
-		,( 5004, 54321, 'A', 'T' )
-		,( 5005, 54321, 'A', 'T' )
-		,( 5006, 54321, 'A', 'T' )
-		,( 5007, 54321, 'A', 'T' )
-		,( 5008, 54321, 'A', 'T' )
-		,( 5009, 54321, 'A', 'T' )
-		,( 5010, 54321, 'P', 'T' )
-		,( 5011, 54321, 'P', 'T' )
-		,( 5012, 54321, 'P', 'T' )
-		,( 5013, 54321, 'P', 'T' )
-		,( 5014, 54321, 'P', 'T' )
-		,( 5015, 54321, 'P', 'T' )
-		,( 5016, 54321, 'P', 'T' )
-		,( 5017, 54321, 'P', 'T' )
-		,( 5018, 54321, 'P', 'T' )
-		,( 5019, 54321, 'P', 'T' )
+	,( 1001, 12345, 'P', 'T' )
+	,( 1002, 12345, 'A', 'T' )
+	,( 1003, 12345, 'P', 'T' )
+	,( 1004, 12345, 'P', 'T' )
+	,( 1005, 12345, 'A', 'T' )
+	,( 1006, 12345, 'A', 'T' )
+	,( 1007, 12345, 'P', 'T' )
+	,( 1008, 12345, 'A', 'T' )
+	,( 1009, 12345, 'P', 'T' )
+	,( 1010, 12345, 'P', 'T' )
+	,( 1011, 12345, 'A', 'T' )
+	,( 1012, 12345, 'P', 'T' )
+	,( 1013, 12345, 'A', 'T' )
+	,( 1014, 12345, 'A', 'T' )
+	,( 1015, 12345, 'A', 'T' )
+	,( 1016, 12345, 'P', 'T' )
+	,( 1017, 12345, 'P', 'T' )
+	,( 1018, 12345, 'A', 'T' )
+	,( 1019, 12345, 'P', 'T' )
+	,( 5000, 54321, 'A', 'T' )
+	,( 5001, 54321, 'A', 'T' )
+	,( 5002, 54321, 'A', 'T' )
+	,( 5003, 54321, 'A', 'T' )
+	,( 5004, 54321, 'A', 'T' )
+	,( 5005, 54321, 'A', 'T' )
+	,( 5006, 54321, 'A', 'T' )
+	,( 5007, 54321, 'A', 'T' )
+	,( 5008, 54321, 'A', 'T' )
+	,( 5009, 54321, 'A', 'T' )
+	,( 5010, 54321, 'P', 'T' )
+	,( 5011, 54321, 'P', 'T' )
+	,( 5012, 54321, 'P', 'T' )
+	,( 5013, 54321, 'P', 'T' )
+	,( 5014, 54321, 'P', 'T' )
+	,( 5015, 54321, 'P', 'T' )
+	,( 5016, 54321, 'P', 'T' )
+	,( 5017, 54321, 'P', 'T' )
+	,( 5018, 54321, 'P', 'T' )
+	,( 5019, 54321, 'P', 'T' )
 
 INSERT INTO TWithdrawReasons( intWithdrawReasonID, strWithdrawDesc )
 VALUES   ( 1, 'Patient withdrew consent' )
-		,( 2, 'Adverse event' )
-		,( 3, 'Health issue-related to study' )
-		,( 4, 'Health issue-unrelated to study' )
-		,( 5, 'Personal reason' )
-		,( 6, 'Completed the study' )
+	,( 2, 'Adverse event' )
+	,( 3, 'Health issue-related to study' )
+	,( 4, 'Health issue-unrelated to study' )
+	,( 5, 'Personal reason' )
+	,( 6, 'Completed the study' )
 
 INSERT INTO TDrugKits( intDrugKitID, intSiteID, strTreatment, intVisitID )
 VALUES   ( 10000, 101, 'A', NULL )
-		,( 10001, 101, 'A', NULL )
-		,( 10002, 101, 'A', NULL )
-		,( 10003, 101, 'A', NULL )
-		,( 10004, 101, 'P', NULL )
-		,( 10005, 101, 'P', NULL )
-		,( 10006, 101, 'P', NULL )
-		,( 10007, 101, 'P', NULL )
-		,( 10008, 111, 'A', NULL )
-		,( 10009, 111, 'A', NULL )
-		,( 10010, 111, 'A', NULL )
-		,( 10011, 111, 'A', NULL )
-		,( 10012, 111, 'P', NULL )
-		,( 10013, 111, 'P', NULL )
-		,( 10014, 111, 'P', NULL )
-		,( 10015, 111, 'P', NULL )
-		,( 10016, 121, 'A', NULL )
-		,( 10017, 121, 'A', NULL )
-		,( 10018, 121, 'A', NULL )
-		,( 10019, 121, 'A', NULL )
-		,( 10020, 121, 'P', NULL )
-		,( 10021, 121, 'P', NULL )
-		,( 10022, 121, 'P', NULL )
-		,( 10023, 121, 'P', NULL )
-		,( 10024, 131, 'A', NULL )
-		,( 10025, 131, 'A', NULL )
-		,( 10026, 131, 'A', NULL )
-		,( 10027, 131, 'A', NULL )
-		,( 10028, 131, 'P', NULL )
-		,( 10029, 131, 'P', NULL )
-		,( 10030, 131, 'P', NULL )
-		,( 10031, 131, 'P', NULL )
-		,( 10032, 141, 'A', NULL )
-		,( 10033, 141, 'A', NULL )
-		,( 10034, 141, 'A', NULL )
-		,( 10035, 141, 'A', NULL )
-		,( 10036, 141, 'P', NULL )
-		,( 10037, 141, 'P', NULL )
-		,( 10038, 141, 'P', NULL )
-		,( 10039, 141, 'P', NULL )
-		,( 10040, 501, 'A', NULL )
-		,( 10041, 501, 'A', NULL )
-		,( 10042, 501, 'A', NULL )
-		,( 10043, 501, 'A', NULL )
-		,( 10044, 501, 'P', NULL )
-		,( 10045, 501, 'P', NULL )
-		,( 10046, 501, 'P', NULL )
-		,( 10047, 501, 'P', NULL )
-		,( 10048, 511, 'A', NULL )
-		,( 10049, 511, 'A', NULL )
-		,( 10050, 511, 'A', NULL )
-		,( 10051, 511, 'A', NULL )
-		,( 10052, 511, 'P', NULL )
-		,( 10053, 511, 'P', NULL )
-		,( 10054, 511, 'P', NULL )
-		,( 10055, 511, 'P', NULL )
-		,( 10056, 521, 'A', NULL )
-		,( 10057, 521, 'A', NULL )
-		,( 10058, 521, 'A', NULL )
-		,( 10059, 521, 'A', NULL )
-		,( 10060, 521, 'P', NULL )
-		,( 10061, 521, 'P', NULL )
-		,( 10062, 521, 'P', NULL )
-		,( 10063, 521, 'P', NULL )
-		,( 10064, 531, 'A', NULL )
-		,( 10065, 531, 'A', NULL )
-		,( 10066, 531, 'A', NULL )
-		,( 10067, 531, 'A', NULL )
-		,( 10068, 531, 'P', NULL )
-		,( 10069, 531, 'P', NULL )
-		,( 10070, 531, 'P', NULL )
-		,( 10071, 531, 'P', NULL )
-		,( 10072, 541, 'A', NULL )
-		,( 10073, 541, 'A', NULL )
-		,( 10074, 541, 'A', NULL )
-		,( 10075, 541, 'A', NULL )
-		,( 10076, 541, 'P', NULL )
-		,( 10077, 541, 'P', NULL )
-		,( 10078, 541, 'P', NULL )
-		,( 10079, 541, 'P', NULL )
+	,( 10001, 101, 'A', NULL )
+	,( 10002, 101, 'A', NULL )
+	,( 10003, 101, 'A', NULL )
+	,( 10004, 101, 'P', NULL )
+	,( 10005, 101, 'P', NULL )
+	,( 10006, 101, 'P', NULL )
+	,( 10007, 101, 'P', NULL )
+	,( 10008, 111, 'A', NULL )
+	,( 10009, 111, 'A', NULL )
+	,( 10010, 111, 'A', NULL )
+	,( 10011, 111, 'A', NULL )
+	,( 10012, 111, 'P', NULL )
+	,( 10013, 111, 'P', NULL )
+	,( 10014, 111, 'P', NULL )
+	,( 10015, 111, 'P', NULL )
+	,( 10016, 121, 'A', NULL )
+	,( 10017, 121, 'A', NULL )
+	,( 10018, 121, 'A', NULL )
+	,( 10019, 121, 'A', NULL )
+	,( 10020, 121, 'P', NULL )
+	,( 10021, 121, 'P', NULL )
+	,( 10022, 121, 'P', NULL )
+	,( 10023, 121, 'P', NULL )
+	,( 10024, 131, 'A', NULL )
+	,( 10025, 131, 'A', NULL )
+	,( 10026, 131, 'A', NULL )
+	,( 10027, 131, 'A', NULL )
+	,( 10028, 131, 'P', NULL )
+	,( 10029, 131, 'P', NULL )
+	,( 10030, 131, 'P', NULL )
+	,( 10031, 131, 'P', NULL )
+	,( 10032, 141, 'A', NULL )
+	,( 10033, 141, 'A', NULL )
+	,( 10034, 141, 'A', NULL )
+	,( 10035, 141, 'A', NULL )
+	,( 10036, 141, 'P', NULL )
+	,( 10037, 141, 'P', NULL )
+	,( 10038, 141, 'P', NULL )
+	,( 10039, 141, 'P', NULL )
+	,( 10040, 501, 'A', NULL )
+	,( 10041, 501, 'A', NULL )
+	,( 10042, 501, 'A', NULL )
+	,( 10043, 501, 'A', NULL )
+	,( 10044, 501, 'P', NULL )
+	,( 10045, 501, 'P', NULL )
+	,( 10046, 501, 'P', NULL )
+	,( 10047, 501, 'P', NULL )
+	,( 10048, 511, 'A', NULL )
+	,( 10049, 511, 'A', NULL )
+	,( 10050, 511, 'A', NULL )
+	,( 10051, 511, 'A', NULL )
+	,( 10052, 511, 'P', NULL )
+	,( 10053, 511, 'P', NULL )
+	,( 10054, 511, 'P', NULL )
+	,( 10055, 511, 'P', NULL )
+	,( 10056, 521, 'A', NULL )
+	,( 10057, 521, 'A', NULL )
+	,( 10058, 521, 'A', NULL )
+	,( 10059, 521, 'A', NULL )
+	,( 10060, 521, 'P', NULL )
+	,( 10061, 521, 'P', NULL )
+	,( 10062, 521, 'P', NULL )
+	,( 10063, 521, 'P', NULL )
+	,( 10064, 531, 'A', NULL )
+	,( 10065, 531, 'A', NULL )
+	,( 10066, 531, 'A', NULL )
+	,( 10067, 531, 'A', NULL )
+	,( 10068, 531, 'P', NULL )
+	,( 10069, 531, 'P', NULL )
+	,( 10070, 531, 'P', NULL )
+	,( 10071, 531, 'P', NULL )
+	,( 10072, 541, 'A', NULL )
+	,( 10073, 541, 'A', NULL )
+	,( 10074, 541, 'A', NULL )
+	,( 10075, 541, 'A', NULL )
+	,( 10076, 541, 'P', NULL )
+	,( 10077, 541, 'P', NULL )
+	,( 10078, 541, 'P', NULL )
+	,( 10079, 541, 'P', NULL )
 
 -- --------------------------------------------------------------------------------
 -- Step #3 - Create the view that will show all patients at all sites for both
@@ -401,7 +401,7 @@ AS
 	FROM
 		TRandomCodes
 	WHERE
-			blnAvailable = 'T'
+		    blnAvailable = 'T'
 		AND intStudyID = 54321
 	GROUP BY
 		 intStudyID
@@ -423,7 +423,7 @@ AS
 	FROM
 		TDrugKits
 	WHERE
-			intSiteID LIKE '1%'
+		    intSiteID LIKE '1%'
 		AND intVisitID IS NULL	
 
 GO
@@ -438,7 +438,7 @@ AS
 	FROM
 		TDrugKits
 	WHERE
-			intSiteID LIKE '5%'
+		    intSiteID LIKE '5%'
 		AND intVisitID IS NULL	
 		
 -- --------------------------------------------------------------------------------
@@ -503,8 +503,8 @@ GO
 
 CREATE PROCEDURE uspScreenPatient
 	 @intSiteID			AS INTEGER
-	,@dtmDateOfBirth	AS DATETIME
-	,@intGenderID		AS INTEGER
+	,@dtmDateOfBirth		AS DATETIME
+	,@intGenderID			AS INTEGER
 	,@intWeight			AS INTEGER
 	,@dtmVisit			AS DATETIME
 AS
@@ -512,9 +512,9 @@ SET NOCOUNT ON  --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
 
 DECLARE @intPatientID		   AS INTEGER
-DECLARE @intDefaultPatientID   AS INTEGER
+DECLARE @intDefaultPatientID  	   AS INTEGER
 DECLARE @intHighestVisitID	   AS INTEGER
-DECLARE @intVisitID			   AS INTEGER 
+DECLARE @intVisitID		   AS INTEGER 
 DECLARE @intVisitTypeID		   AS INTEGER
 
 -- Get highest visit ID in TPatientVisits
@@ -592,12 +592,12 @@ SET NOCOUNT ON  --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
 
 DECLARE @intRandomCodeID			AS INTEGER
-DECLARE @intStudyID					AS INTEGER
+DECLARE @intStudyID				AS INTEGER
 DECLARE @intHighestVisitID			AS INTEGER
-DECLARE @intSiteID					AS INTEGER
+DECLARE @intSiteID				AS INTEGER
 DECLARE @intDrugKitID				AS INTEGER
-DECLARE @intVisitID					AS INTEGER
-DECLARE @dtmVisit					AS DATETIME
+DECLARE @intVisitID				AS INTEGER
+DECLARE @dtmVisit				AS DATETIME
 DECLARE @strTreatment				AS VARCHAR(50)
 DECLARE @intActiveCount				AS INTEGER
 DECLARE @intPlaceboCount			AS INTEGER
@@ -641,76 +641,76 @@ END
 IF( @intStudyID = 12345 ) 
 	BEGIN
 	
-			DECLARE RandomCursorStudy1 CURSOR LOCAL FOR
-			SELECT
-				 intNextAvailable
-			FROM 
-				VNextAvailableRandomCodeStudy12345
-			WHERE 
-				intStudyID = 12345
+		DECLARE RandomCursorStudy1 CURSOR LOCAL FOR
+		SELECT
+			intNextAvailable
+		FROM 
+			VNextAvailableRandomCodeStudy12345
+		WHERE
+			intStudyID = 12345
 
-			OPEN
-				RandomCursorStudy1
-			FETCH FROM
-				RandomCursorStudy1
-			INTO
-				@intRandomCodeID
+		OPEN
+			RandomCursorStudy1
+		FETCH FROM
+			RandomCursorStudy1
+		INTO
+			@intRandomCodeID
 
-			-- Get the treatment associated with the assigned random code.
-			DECLARE TreatmentCursor CURSOR LOCAL FOR
-			SELECT
-				strTreatment
-			FROM
-				TRandomCodes
-			WHERE
-				intRandomCodeID = @intRandomCodeID
+		-- Get the treatment associated with the assigned random code.
+		DECLARE TreatmentCursor CURSOR LOCAL FOR
+		SELECT
+			strTreatment
+		FROM
+			TRandomCodes
+		WHERE
+			intRandomCodeID = @intRandomCodeID
 
-			OPEN
-				TreatmentCursor
-			FETCH FROM
-				TreatmentCursor
-			INTO
-				@strTreatment
+		OPEN
+			TreatmentCursor
+		FETCH FROM
+			TreatmentCursor
+		INTO
+			@strTreatment
 
-			-- Get next available drug kit for assigned treatment.
-			DECLARE DrugKitCursorStudy12345 CURSOR LOCAL FOR
-			SELECT 
-				intDrugKitID
-			FROM
-				VAvailableDrugKitsStudy12345
-			WHERE
-					intSiteID	 = @intSiteID
-				AND strTreatment = @strTreatment
+		-- Get next available drug kit for assigned treatment.
+		DECLARE DrugKitCursorStudy12345 CURSOR LOCAL FOR
+		SELECT 
+			intDrugKitID
+		FROM
+			VAvailableDrugKitsStudy12345
+		WHERE
+			    intSiteID	 = @intSiteID
+			AND strTreatment = @strTreatment
 
-			OPEN
-				DrugKitCursorStudy12345
-			FETCH FROM
-				DrugKitCursorStudy12345
-			INTO
-				@intDrugKitID
+		OPEN
+			DrugKitCursorStudy12345
+		FETCH FROM
+			DrugKitCursorStudy12345
+		INTO
+			@intDrugKitID
 	END
 ELSE
 	-- If study 54321, assign a random code and treatment using a random generator, but ensuring that one treatment
 	-- does not outnumber the other by more than 2.
 	BEGIN
 	
-		-- Determine current number of patients receiving 'active' treatment.
-		SELECT @intActiveCount = (SELECT
-									COUNT(*)
-								  FROM
-										VRandomizedPatients
-								  WHERE 
-										intSiteID LIKE '5%'
-									AND	strTreatment = 'A')
+	-- Determine current number of patients receiving 'active' treatment.
+	SELECT @intActiveCount = (SELECT
+					COUNT(*)
+				  FROM
+					VRandomizedPatients
+				  WHERE 
+					intSiteID LIKE '5%'
+				    AND strTreatment = 'A')
 
 		-- Determine current number of patients receiving 'placebo' treatment.						
 		SELECT @intPlaceboCount = (SELECT
-									COUNT(*)
-								   FROM
-										VRandomizedPatients
-								   WHERE 
-										 intSiteID LIKE '5%'
-									 AND strTreatment = 'P')
+						COUNT(*)
+					   FROM
+						VRandomizedPatients
+					   WHERE 
+						intSiteID LIKE '5%'
+					   AND strTreatment = 'P')
 								 
 		-- If patients receiving 'active' treatment outnumber patients receiving 'placebo' treatment
 		-- by 2, assign the patient to the 'placebo' group.
@@ -740,7 +740,7 @@ ELSE
 		FROM 
 			VNextAvailableRandomCodeStudy54321
 		WHERE 
-				intStudyID = 54321
+			    intStudyID = 54321
 			AND strTreatment = @strTreatment
 
 		OPEN
@@ -757,7 +757,7 @@ ELSE
 		FROM
 			VAvailableDrugKitsStudy54321
 		WHERE
-				intSiteID	 = @intSiteID
+			    intSiteID	 = @intSiteID
 			AND strTreatment = @strTreatment
 
 		OPEN
@@ -826,16 +826,16 @@ COMMIT TRANSACTION
 GO
 
 CREATE PROCEDURE uspWithdrawPatient
-	 @intPatientID			AS INTEGER
-	,@dtmVisit				AS DATETIME
+	 @intPatientID		AS INTEGER
+	,@dtmVisit		AS DATETIME
 	,@intWithdrawReasonID	AS INTEGER
 AS
 SET NOCOUNT ON  --Report only errors
 SET XACT_ABORT ON  --Terminate and rollback entire transaction on error
 
-DECLARE @intVisitID					AS INTEGER
-DECLARE @intHighestVisitID			AS INTEGER
-DECLARE @dtmLastVisitDate			AS DATETIME
+DECLARE @intVisitID		AS INTEGER
+DECLARE @intHighestVisitID	AS INTEGER
+DECLARE @dtmLastVisitDate	AS DATETIME
 
 -- Get the highest visit ID in TPatientVisits.
 BEGIN
